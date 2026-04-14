@@ -14,6 +14,7 @@ public class TRAINCONSISTMANAGEMENTAPP {
         }
     }
 
+    //
     // Display all unique bogie IDs
     public static void displayBogieIDs() {
         System.out.println("Unique Bogie IDs in Train:");
