@@ -1,41 +1,43 @@
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.*;
+
+// Passenger Bogie class
+class PassengerBogie {
+    String name;
+    int capacity;
+
+    PassengerBogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public void display() {
+        System.out.println(name + " -> Capacity: " + capacity);
+    }
+}
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
-
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
-        }
-    }
-
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
-    }
-
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        System.out.println("===== Train Consist Management App (UC8) =====");
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        // Step 1: Create list
+        List<PassengerBogie> bogies = new ArrayList<>();
+        bogies.add(new PassengerBogie("Sleeper", 72));
+        bogies.add(new PassengerBogie("AC Chair", 56));
+        bogies.add(new PassengerBogie("First Class", 24));
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        // Step 2: Convert to stream & filter (capacity > 50)
+        List<PassengerBogie> filteredBogies = bogies.stream()
+                .filter(b -> b.capacity > 50)
+                .collect(Collectors.toList());
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        // Step 3: Display filtered bogies
+        System.out.println("High Capacity Bogies (capacity > 50):");
+        for (PassengerBogie b : filteredBogies) {
+            b.display();
+        }
 
         System.out.println("Program continues...");
     }
