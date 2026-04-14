@@ -1,38 +1,48 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+// Passenger Bogie class
+class PassengerBogie {
+    String name;
+    int capacity;
+
+    // Constructor
+    PassengerBogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    // Display method
+    public void display() {
+        System.out.println(name + " -> Capacity: " + capacity);
+    }
+}
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // HashMap to store bogie and its capacity
-    static HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
-
-    // Add bogie with capacity
-    public static void addBogie(String bogie, int capacity) {
-        bogieCapacityMap.put(bogie, capacity);
-        System.out.println(bogie + " added with capacity " + capacity);
-    }
-
-    // Display all bogies with capacity
-    public static void displayBogies() {
-        System.out.println("Bogie Capacity Details:");
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> Capacity: " + entry.getValue());
-        }
-    }
-
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC6) =====");
+        System.out.println("===== Train Consist Management App (UC7) =====");
 
-        // Step 1: Add bogies with capacity
-        addBogie("Sleeper", 72);
-        addBogie("AC Chair", 54);
-        addBogie("First Class", 24);
-        addBogie("Goods Rectangular", 100);
-        addBogie("Goods Cylindrical", 120);
+        // Step 1: Create list
+        List<PassengerBogie> bogies = new ArrayList<>();
 
-        // Step 2: Display mapping
-        displayBogies();
+        // Step 2: Add objects
+        bogies.add(new PassengerBogie("Sleeper", 72));
+        bogies.add(new PassengerBogie("AC Chair", 56));
+        bogies.add(new PassengerBogie("First Class", 24));
+
+        // Step 3: Sort using Comparator (by capacity)
+        Collections.sort(bogies, new Comparator<PassengerBogie>() {
+            public int compare(PassengerBogie b1, PassengerBogie b2) {
+                return b1.capacity - b2.capacity; // ascending
+            }
+        });
+
+        // Step 4: Display sorted bogies
+        System.out.println("Bogies sorted by capacity:");
+        for (PassengerBogie b : bogies) {
+            b.display();
+        }
 
         System.out.println("Program continues...");
     }
