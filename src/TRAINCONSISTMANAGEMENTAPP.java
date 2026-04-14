@@ -1,42 +1,51 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+public class TrainConsistManagerApp {
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
+    // Search method with fail-fast validation
+    public static boolean searchBogie(String[] bogieIds, String key) {
 
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
+        // 🔴 Fail-Fast Check
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("No bogies available in the train. Cannot perform search.");
         }
-    }
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
+        // Linear Search Logic (can also use binary)
+        for (String id : bogieIds) {
+            if (id.equals(key)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        Scanner sc = new Scanner(System.in);
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        // 🔹 Example 1: Empty array (to test exception)
+        String[] bogieIds = {};  
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        // 🔹 Example 2: Uncomment below to test normal flow
+        // String[] bogieIds = {"BG101", "BG205", "BG309"};
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        System.out.print("Enter Bogie ID to search: ");
+        String key = sc.nextLine();
 
-        System.out.println("Program continues...");
+        try {
+            boolean found = searchBogie(bogieIds, key);
+
+            if (found) {
+                System.out.println("Bogie ID FOUND ✅");
+            } else {
+                System.out.println("Bogie ID NOT FOUND ❌");
+            }
+
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR ⚠️: " + e.getMessage());
+        }
+
+        sc.close();
     }
 }
