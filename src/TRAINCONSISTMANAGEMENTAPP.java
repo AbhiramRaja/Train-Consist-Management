@@ -1,42 +1,56 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+// Step 1: Custom Exception
+class InvalidCapacityException extends Exception {
+    public InvalidCapacityException(String message) {
+        super(message);
+    }
+}
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
+// Step 2: Passenger Bogie Class
+class PassengerBogie {
+    private String name;
+    private int capacity;
 
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
+    public PassengerBogie(String name, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than zero");
         }
+        this.name = name;
+        this.capacity = capacity;
     }
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
+    public String getName() {
+        return name;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+}
+
+// Step 3: Main Class (as required)
+public class TrainConsistManagerApp {
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        List<PassengerBogie> bogies = new ArrayList<>();
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        try {
+            // Valid bogies
+            bogies.add(new PassengerBogie("Sleeper", 72));
+            bogies.add(new PassengerBogie("AC Chair", 56));
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+            // Invalid bogie (will throw exception)
+            bogies.add(new PassengerBogie("First Class", 0));
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
-        System.out.println("Program continues...");
+        // Display valid bogies
+        System.out.println("\nValid Bogies:");
+        for (PassengerBogie b : bogies) {
+            System.out.println(b.getName() + " - Capacity: " + b.getCapacity());
+        }
     }
 }
