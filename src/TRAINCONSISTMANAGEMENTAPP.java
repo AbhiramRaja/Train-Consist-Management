@@ -1,34 +1,43 @@
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // Train consist (list of bogies)
-    static ArrayList<String> bogies = new ArrayList<>();
+    // LinkedHashSet for ordered + unique bogies
+    static LinkedHashSet<String> bogieIDs = new LinkedHashSet<>();
 
-    // Method to initialize train
-    public static void initializeTrain() {
-        System.out.println("Train consist initialized.");
+    // Add bogie
+    public static void addBogie(String id) {
+        if (bogieIDs.add(id)) {
+            System.out.println(id + " added successfully.");
+        } else {
+            System.out.println(id + " already exists! Duplicate not allowed.");
+        }
     }
 
-    // Method to get bogie count
-    public static int getBogieCount() {
-        return bogies.size();
+    // Display bogies in insertion order
+    public static void displayBogies() {
+        System.out.println("Train Formation (Insertion Order):");
+        for (String id : bogieIDs) {
+            System.out.println("- " + id);
+        }
     }
 
     public static void main(String[] args) {
 
-        // Step 1: Welcome message
-        System.out.println("====================================");
-        System.out.println(" Welcome to Train Consist Management App ");
-        System.out.println("====================================");
+        System.out.println("===== Train Consist Management App (UC5) =====");
 
-        // Step 2: Initialize train
-        initializeTrain();
+        // Step 1: Add bogies
+        addBogie("BG101");
+        addBogie("BG105");
+        addBogie("BG102");
+        addBogie("BG103");
 
-        // Step 3: Display initial bogie count
-        System.out.println("Initial bogie count: " + getBogieCount());
+        // Step 2: Try duplicate
+        addBogie("BG101");
 
-        // Step 4: Continue program
+        // Step 3: Display formation
+        displayBogies();
+
         System.out.println("Program continues...");
     }
 }
