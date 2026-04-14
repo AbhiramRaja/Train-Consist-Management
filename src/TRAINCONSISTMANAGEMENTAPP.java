@@ -1,48 +1,42 @@
-import java.util.*;
-
-// Passenger Bogie class
-class PassengerBogie {
-    String name;
-    int capacity;
-
-    // Constructor
-    PassengerBogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    // Display method
-    public void display() {
-        System.out.println(name + " -> Capacity: " + capacity);
-    }
-}
+import java.util.LinkedHashSet;
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
+    // LinkedHashSet for ordered + unique bogies
+    static LinkedHashSet<String> bogieIDs = new LinkedHashSet<>();
+
+    // Add bogie
+    public static void addBogie(String id) {
+        if (bogieIDs.add(id)) {
+            System.out.println(id + " added successfully.");
+        } else {
+            System.out.println(id + " already exists! Duplicate not allowed.");
+        }
+    }
+
+    // Display bogies in insertion order
+    public static void displayBogies() {
+        System.out.println("Train Formation (Insertion Order):");
+        for (String id : bogieIDs) {
+            System.out.println("- " + id);
+        }
+    }
+
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC7) =====");
+        System.out.println("===== Train Consist Management App (UC5) =====");
 
-        // Step 1: Create list
-        List<PassengerBogie> bogies = new ArrayList<>();
+        // Step 1: Add bogies
+        addBogie("BG101");
+        addBogie("BG105");
+        addBogie("BG102");
+        addBogie("BG103");
 
-        // Step 2: Add objects
-        bogies.add(new PassengerBogie("Sleeper", 72));
-        bogies.add(new PassengerBogie("AC Chair", 56));
-        bogies.add(new PassengerBogie("First Class", 24));
+        // Step 2: Try duplicate
+        addBogie("BG101");
 
-        // Step 3: Sort using Comparator (by capacity)
-        Collections.sort(bogies, new Comparator<PassengerBogie>() {
-            public int compare(PassengerBogie b1, PassengerBogie b2) {
-                return b1.capacity - b2.capacity; // ascending
-            }
-        });
-
-        // Step 4: Display sorted bogies
-        System.out.println("Bogies sorted by capacity:");
-        for (PassengerBogie b : bogies) {
-            b.display();
-        }
+        // Step 3: Display formation
+        displayBogies();
 
         System.out.println("Program continues...");
     }
