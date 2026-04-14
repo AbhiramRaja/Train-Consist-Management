@@ -1,34 +1,39 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // Train consist (list of bogies)
-    static ArrayList<String> bogies = new ArrayList<>();
+    // HashMap to store bogie and its capacity
+    static HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
 
-    // Method to initialize train
-    public static void initializeTrain() {
-        System.out.println("Train consist initialized.");
+    // Add bogie with capacity
+    public static void addBogie(String bogie, int capacity) {
+        bogieCapacityMap.put(bogie, capacity);
+        System.out.println(bogie + " added with capacity " + capacity);
     }
 
-    // Method to get bogie count
-    public static int getBogieCount() {
-        return bogies.size();
+    // Display all bogies with capacity
+    public static void displayBogies() {
+        System.out.println("Bogie Capacity Details:");
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> Capacity: " + entry.getValue());
+        }
     }
 
     public static void main(String[] args) {
 
-        // Step 1: Welcome message
-        System.out.println("====================================");
-        System.out.println(" Welcome to Train Consist Management App ");
-        System.out.println("====================================");
+        System.out.println("===== Train Consist Management App (UC6) =====");
 
-        // Step 2: Initialize train
-        initializeTrain();
+        // Step 1: Add bogies with capacity
+        addBogie("Sleeper", 72);
+        addBogie("AC Chair", 54);
+        addBogie("First Class", 24);
+        addBogie("Goods Rectangular", 100);
+        addBogie("Goods Cylindrical", 120);
 
-        // Step 3: Display initial bogie count
-        System.out.println("Initial bogie count: " + getBogieCount());
+        // Step 2: Display mapping
+        displayBogies();
 
-        // Step 4: Continue program
         System.out.println("Program continues...");
     }
 }
