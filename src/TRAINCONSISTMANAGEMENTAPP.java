@@ -1,42 +1,66 @@
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+class Bogie {
+    String name;
+    int capacity;
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
-
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
-        }
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
+    public int getCapacity() {
+        return capacity;
     }
+}
 
+public class TrainConsistManagerApp {
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        // Step 1: Create large dataset
+        List<Bogie> bogies = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            bogies.add(new Bogie("Bogie-" + i, (int)(Math.random() * 100)));
+        }
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        // -------------------------------
+        // 🔹 Loop-Based Filtering
+        // -------------------------------
+        long startLoop = System.nanoTime();
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.getCapacity() > 60) {
+                loopResult.add(b);
+            }
+        }
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        long endLoop = System.nanoTime();
+        long loopTime = endLoop - startLoop;
 
-        System.out.println("Program continues...");
+        // -------------------------------
+        // 🔹 Stream-Based Filtering
+        // -------------------------------
+        long startStream = System.nanoTime();
+
+        List<Bogie> streamResult = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+
+        long endStream = System.nanoTime();
+        long streamTime = endStream - startStream;
+
+        // -------------------------------
+        // Results
+        // -------------------------------
+        System.out.println("Loop Filtering Time: " + loopTime + " ns");
+        System.out.println("Stream Filtering Time: " + streamTime + " ns");
+
+        System.out.println("Loop Result Size: " + loopResult.size());
+        System.out.println("Stream Result Size: " + streamResult.size());
+
+        // Verify both results are same
+        System.out.println("Results Match: " + (loopResult.size() == streamResult.size()));
     }
 }
