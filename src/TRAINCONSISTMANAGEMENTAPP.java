@@ -1,42 +1,46 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+class Bogie {
+    String name;
+    int capacity;
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
-
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
-        }
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
+    public String getName() {
+        return name;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+}
+
+public class TrainConsistManagerApp {
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        // Step 1: Create list of bogies
+        List<Bogie> bogies = new ArrayList<>();
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("Sleeper", 70));
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        // Step 2: Stream → map → reduce
+        int totalSeats = bogies.stream()
+                .map(b -> b.getCapacity())   // extract capacity
+                .reduce(0, Integer::sum);    // aggregate
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        // Step 3: Display result
+        System.out.println("Total Seating Capacity of Train: " + totalSeats);
 
-        System.out.println("Program continues...");
+        // Step 4: Verify original list unchanged
+        System.out.println("\nOriginal Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b.getName() + " - " + b.getCapacity());
+        }
     }
 }
