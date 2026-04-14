@@ -1,71 +1,42 @@
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // Train consist list
-    static ArrayList<String> bogies = new ArrayList<>();
+    // HashSet to store unique bogie IDs
+    static HashSet<String> bogieIDs = new HashSet<>();
 
-    // Initialize train
-    public static void initializeTrain() {
-        System.out.println("Train consist initialized.");
-    }
-
-    // Add passenger bogie
-    public static void addBogie(String bogieType) {
-        bogies.add(bogieType);
-        System.out.println(bogieType + " bogie added.");
-    }
-
-    // Display all bogies
-    public static void displayBogies() {
-        System.out.println("Current Train Consist:");
-        for (String b : bogies) {
-            System.out.println("- " + b);
+    // Add bogie ID
+    public static void addBogieID(String id) {
+        if (bogieIDs.add(id)) {
+            System.out.println(id + " added successfully.");
+        } else {
+            System.out.println(id + " already exists! Duplicate not allowed.");
         }
     }
 
-    // Remove a bogie
-    public static void removeBogie(String bogieType) {
-        if (bogies.remove(bogieType)) {
-            System.out.println(bogieType + " bogie removed.");
-        } else {
-            System.out.println(bogieType + " bogie not found.");
-        }
-    }
-
-    // Check if bogie exists
-    public static void checkBogie(String bogieType) {
-        if (bogies.contains(bogieType)) {
-            System.out.println(bogieType + " exists in the train.");
-        } else {
-            System.out.println(bogieType + " does NOT exist.");
+    // Display all unique bogie IDs
+    public static void displayBogieIDs() {
+        System.out.println("Unique Bogie IDs in Train:");
+        for (String id : bogieIDs) {
+            System.out.println("- " + id);
         }
     }
 
     public static void main(String[] args) {
 
-        // Step 1: Welcome
-        System.out.println("===== Train Consist Management App =====");
+        System.out.println("===== Train Consist Management App (UC3) =====");
 
-        // Step 2: Initialize
-        initializeTrain();
+        // Step 1: Add bogie IDs
+        addBogieID("BG101");
+        addBogieID("BG102");
+        addBogieID("BG103");
 
-        // Step 3: Add passenger bogies
-        addBogie("Sleeper");
-        addBogie("AC Chair");
-        addBogie("First Class");
+        // Step 2: Try adding duplicate
+        addBogieID("BG101");
 
-        // Step 4: Display bogies
-        displayBogies();
+        // Step 3: Display unique IDs
+        displayBogieIDs();
 
-        // Step 5: Remove a bogie
-        removeBogie("AC Chair");
-
-        // Step 6: Check existence
-        checkBogie("AC Chair");
-        checkBogie("Sleeper");
-
-        // Step 7: Continue
         System.out.println("Program continues...");
     }
 }
