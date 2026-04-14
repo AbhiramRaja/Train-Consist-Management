@@ -1,41 +1,37 @@
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TRAINCONSISTMANAGEMENTAPP {
 
-    // LinkedHashSet for ordered + unique bogies
-    static LinkedHashSet<String> bogieIDs = new LinkedHashSet<>();
+    // HashMap to store bogie and its capacity
+    static HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
 
-    // Add bogie
-    public static void addBogie(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
-        }
+    // Add bogie with capacity
+    public static void addBogie(String bogie, int capacity) {
+        bogieCapacityMap.put(bogie, capacity);
+        System.out.println(bogie + " added with capacity " + capacity);
     }
 
-    // Display bogies in insertion order
+    // Display all bogies with capacity
     public static void displayBogies() {
-        System.out.println("Train Formation (Insertion Order):");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
+        System.out.println("Bogie Capacity Details:");
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> Capacity: " + entry.getValue());
         }
     }
 
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC5) =====");
+        System.out.println("===== Train Consist Management App (UC6) =====");
 
-        // Step 1: Add bogies
-        addBogie("BG101");
-        addBogie("BG105");
-        addBogie("BG102");
-        addBogie("BG103");
+        // Step 1: Add bogies with capacity
+        addBogie("Sleeper", 72);
+        addBogie("AC Chair", 54);
+        addBogie("First Class", 24);
+        addBogie("Goods Rectangular", 100);
+        addBogie("Goods Cylindrical", 120);
 
-        // Step 2: Try duplicate
-        addBogie("BG101");
-
-        // Step 3: Display formation
+        // Step 2: Display mapping
         displayBogies();
 
         System.out.println("Program continues...");
