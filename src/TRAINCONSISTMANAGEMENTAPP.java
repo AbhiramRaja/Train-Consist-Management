@@ -1,42 +1,56 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+public class TrainConsistManagerApp {
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
+    // Binary Search Method
+    public static boolean binarySearch(String[] bogieIds, String key) {
 
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int comparison = bogieIds[mid].compareTo(key);
+
+            if (comparison == 0) {
+                return true; // Found
+            } else if (comparison < 0) {
+                low = mid + 1; // Search right
+            } else {
+                high = mid - 1; // Search left
+            }
         }
-    }
-
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
+        return false; // Not found
     }
 
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        // Step 1: Create bogie ID array (unsorted allowed)
+        String[] bogieIds = {"BG309", "BG101", "BG550", "BG205", "BG412"};
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        // Step 2: Sort before binary search
+        Arrays.sort(bogieIds);
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        System.out.println("Sorted Bogie IDs:");
+        System.out.println(Arrays.toString(bogieIds));
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("Program continues...");
+        // Step 3: Input search key
+        System.out.print("\nEnter Bogie ID to search: ");
+        String key = sc.nextLine();
+
+        // Step 4: Perform Binary Search
+        boolean found = binarySearch(bogieIds, key);
+
+        // Step 5: Display result
+        if (found) {
+            System.out.println("Bogie ID FOUND ✅");
+        } else {
+            System.out.println("Bogie ID NOT FOUND ❌");
+        }
+
+        sc.close();
     }
 }
