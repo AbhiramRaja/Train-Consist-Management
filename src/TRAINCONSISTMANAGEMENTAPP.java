@@ -1,42 +1,69 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+// Step 1: Custom Runtime Exception
+class CargoSafetyException extends RuntimeException {
+    public CargoSafetyException(String message) {
+        super(message);
+    }
+}
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
+// Step 2: Goods Bogie Class
+class GoodsBogie {
+    private String type;   // Rectangular, Cylindrical
+    private String cargo;
 
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
+    public GoodsBogie(String type) {
+        this.type = type;
+    }
+
+    public void assignCargo(String cargo) {
+        try {
+            // Step 3: Validation Rule
+            if (type.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
+                throw new CargoSafetyException("Unsafe: Rectangular bogie cannot carry Petroleum!");
+            }
+
+            // Assign if safe
+            this.cargo = cargo;
+            System.out.println("Cargo '" + cargo + "' assigned to " + type + " bogie ✅");
+
+        } catch (CargoSafetyException e) {
+            // Step 4: Handle Exception
+            System.out.println("Error: " + e.getMessage());
+
+        } finally {
+            // Step 5: Always executes
+            System.out.println("Assignment attempt completed for " + type + " bogie\n");
         }
     }
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
-        }
+    public String getDetails() {
+        return type + " Bogie -> Cargo: " + (cargo == null ? "None" : cargo);
     }
+}
 
+// Step 6: Main Class
+public class TrainConsistManagerApp {
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        List<GoodsBogie> bogies = new ArrayList<>();
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        bogies.add(new GoodsBogie("Cylindrical"));
+        bogies.add(new GoodsBogie("Rectangular"));
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        // Safe assignment
+        bogies.get(0).assignCargo("Petroleum");
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
+        // Unsafe assignment
+        bogies.get(1).assignCargo("Petroleum");
 
-        System.out.println("Program continues...");
+        // Program continues
+        bogies.get(1).assignCargo("Coal");
+
+        // Display final state
+        System.out.println("Final Bogie Status:");
+        for (GoodsBogie b : bogies) {
+            System.out.println(b.getDetails());
+        }
     }
 }
