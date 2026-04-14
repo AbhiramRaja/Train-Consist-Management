@@ -1,42 +1,46 @@
-import java.util.HashSet;
+import java.util.*;
 
-public class TRAINCONSISTMANAGEMENTAPP {
+public class TrainConsistManagerApp {
 
-    // HashSet to store unique bogie IDs
-    static HashSet<String> bogieIDs = new HashSet<>();
+    // Bubble Sort Method
+    public static void bubbleSort(int[] capacities) {
+        int n = capacities.length;
 
-    // Add bogie ID
-    public static void addBogieID(String id) {
-        if (bogieIDs.add(id)) {
-            System.out.println(id + " added successfully.");
-        } else {
-            System.out.println(id + " already exists! Duplicate not allowed.");
-        }
-    }
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
 
-    // Display all unique bogie IDs
-    public static void displayBogieIDs() {
-        System.out.println("Unique Bogie IDs in Train:");
-        for (String id : bogieIDs) {
-            System.out.println("- " + id);
+            for (int j = 0; j < n - i - 1; j++) {
+                if (capacities[j] > capacities[j + 1]) {
+
+                    // Swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+
+                    swapped = true;
+                }
+            }
+
+            // Optimization: stop if already sorted
+            if (!swapped) {
+                break;
+            }
         }
     }
 
     public static void main(String[] args) {
 
-        System.out.println("===== Train Consist Management App (UC3) =====");
+        // Step 1: Create array of bogie capacities
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // Step 1: Add bogie IDs
-        addBogieID("BG101");
-        addBogieID("BG102");
-        addBogieID("BG103");
+        System.out.println("Before Sorting:");
+        System.out.println(Arrays.toString(capacities));
 
-        // Step 2: Try adding duplicate
-        addBogieID("BG101");
+        // Step 2: Apply Bubble Sort
+        bubbleSort(capacities);
 
-        // Step 3: Display unique IDs
-        displayBogieIDs();
-
-        System.out.println("Program continues...");
+        // Step 3: Display sorted result
+        System.out.println("\nAfter Sorting (Ascending):");
+        System.out.println(Arrays.toString(capacities));
     }
 }
